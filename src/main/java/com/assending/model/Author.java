@@ -1,11 +1,24 @@
 package com.assending.model;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name="author")
 public class Author {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private int id;
+
+    @Column(name="name")
     private String name;
+
+    @Column(name="email")
     private String email;
+
+    @Column(name="register_date")
     private Date register_date;
 
     public Author(){};

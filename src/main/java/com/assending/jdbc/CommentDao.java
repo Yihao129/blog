@@ -43,14 +43,10 @@ public class CommentDao {
                 t.setPost_id(rs.getInt("post_id"));
                 comments.add(t);
             }
-
-
         }
         catch (Exception e){
-
         }
         finally {
-
         }
 
 
@@ -81,6 +77,7 @@ public class CommentDao {
         }
         return 1;
     }
+
 
 
     public static void main(String[] args) {
