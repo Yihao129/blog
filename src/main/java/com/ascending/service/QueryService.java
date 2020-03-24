@@ -1,6 +1,4 @@
-package com.assending.service;
-
-import com.assending.model.Author;
+package com.ascending.service;
 
 public class QueryService {
 

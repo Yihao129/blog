@@ -1,7 +1,10 @@
-package com.assending.model;
+package com.ascending.model;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="author")
@@ -19,15 +22,19 @@ public class Author {
     private String email;
 
     @Column(name="register_date")
-    private Date register_date;
+    private LocalDateTime register_date;
+
+    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Post> posts;
 
     public Author(){};
 
-    public Author(int id, String name, String email, Date register_date) {
+    public Author(int id, String name, String email, LocalDateTime register_date, List<Post> posts) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.register_date = register_date;
+        this.posts = posts;
     }
 
     public int getId() {
@@ -54,12 +61,20 @@ public class Author {
         this.email = email;
     }
 
-    public Date getRegister_date() {
+    public LocalDateTime getRegister_date() {
         return register_date;
     }
 
-    public void setRegister_date(Date register_date) {
+    public void setRegister_date(LocalDateTime register_date) {
         this.register_date = register_date;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 
     @Override
@@ -69,6 +84,7 @@ public class Author {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", register_date=" + register_date +
+                ", posts=" + posts.hashCode() +
                 '}';
     }
 }

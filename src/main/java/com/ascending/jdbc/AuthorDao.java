@@ -1,13 +1,11 @@
-package com.assending.jdbc;
+package com.ascending.jdbc;
 
-import com.assending.model.Author;
+import com.ascending.model.Author;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +38,7 @@ public class AuthorDao {
                 t.setId(rs.getInt("id"));
                 t.setName(rs.getString("name"));
                 t.setEmail(rs.getString("email"));
-                t.setRegister_date(rs.getDate("register_date"));
+                t.setRegister_date((LocalDateTime) rs.getObject("register_date"));
                 authors.add(t);
             }
         }
@@ -148,11 +146,11 @@ public class AuthorDao {
     }
 
     public static void main(String[] args) throws SQLException {
-        Author t=new Author(0,"Bob","111@gmail.com", Date.valueOf("2000-1-1"));
-        AuthorDao ad=new AuthorDao();
-
-        int r = ad.getIDByName("Bob");
-        System.out.println(r);
+//        Author t=new Author(0,"Bob","111@gmail.com", LocalDateTime.now());
+//        AuthorDao ad=new AuthorDao();
+//
+//        int r = ad.getIDByName("Bob");
+//        System.out.println(r);
 
     }
 

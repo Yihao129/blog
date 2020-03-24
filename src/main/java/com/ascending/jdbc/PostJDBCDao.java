@@ -1,12 +1,13 @@
-package com.assending.jdbc;
+package com.ascending.jdbc;
 
-import com.assending.model.Author;
-import com.assending.model.Post;
+import com.ascending.model.Author;
+import com.ascending.model.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class PostJDBCDao {
                 int id  = rs.getInt("id");
                 String author = rs.getString("author");
                 String content = rs.getString("content");
-                Date date = rs.getDate("date");
+                LocalDateTime date = (LocalDateTime) rs.getObject("date");
                 int author_id  = rs.getInt("author_id");
 
                 //Fill the object
@@ -54,7 +55,6 @@ public class PostJDBCDao {
                 p.setAuthor(author);
                 p.setContent(content);
                 p.setDate(date);
-                p.setAuthor_id(author_id);
                 posts.add(p);
             }
         }
@@ -91,7 +91,7 @@ public class PostJDBCDao {
 
         try{
             String sql=String.format("insert into post(author,content,date,author_id) values('%s','%s','%s','%d')",
-                    post.getAuthor(),post.getContent(),post.getDate().toString(),post.getAuthor_id());
+                    post.getAuthor(),post.getContent(),post.getDate().toString(),1);
             logger.debug(sql);
             stmt.executeUpdate(sql);
         }
@@ -108,7 +108,7 @@ public class PostJDBCDao {
 
         try{
             String sql=String.format("update post set author='%s',content='%s',date='%s',author_id=%d where id=%d",
-                    post.getAuthor(),post.getContent(),post.getDate().toString(),post.getAuthor_id(),id);
+                    post.getAuthor(),post.getContent(),post.getDate().toString(),1,id);
             logger.debug(sql);
             stmt.executeUpdate(sql);
         }
@@ -143,12 +143,12 @@ public class PostJDBCDao {
     public static void main(String[] args){
         PostJDBCDao pjd=new PostJDBCDao();
 
-        AuthorDao ad=new AuthorDao();
-        Author author=new Author(0,"Bob","111@gmail.com", Date.valueOf("2000-3-1"));
-
-
-        Post post=new Post(0,"Bob","This is the first post.",Date.valueOf("2000-1-2"),10);
-        System.out.println(pjd.insertPosts(post));
+//        AuthorDao ad=new AuthorDao();
+//        Author author=new Author(0,"Bob","111@gmail.com", LocalDateTime.now());
+//
+//
+//        Post post=new Post(0,"Bob","This is the first post.",LocalDateTime.now(),10);
+//        System.out.println(pjd.insertPosts(post));
 
 
     }

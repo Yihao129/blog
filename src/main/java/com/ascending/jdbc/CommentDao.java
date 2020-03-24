@@ -1,14 +1,12 @@
-package com.assending.jdbc;
+package com.ascending.jdbc;
 
-import com.assending.model.Author;
-import com.assending.model.Comment;
+import com.ascending.model.Comment;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class CommentDao {
@@ -40,7 +38,6 @@ public class CommentDao {
                 Comment t=new Comment();
                 t.setId(rs.getInt("id"));
                 t.setContent(rs.getString("content"));
-                t.setPost_id(rs.getInt("post_id"));
                 comments.add(t);
             }
         }
@@ -68,7 +65,7 @@ public class CommentDao {
     }
 
     public int insert(Comment comment){
-        String sql=String.format("insert into comment(content,post_id) values('%s',%d)",comment.getContent(),comment.getPost_id());
+        String sql=String.format("insert into comment(content,post_id) values('%s',%d)",comment.getContent(),1);
         try{
             stmt.executeUpdate(sql);
         }catch (Exception e){

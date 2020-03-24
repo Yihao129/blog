@@ -1,16 +1,29 @@
-package com.assending.model;
+package com.ascending.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "comment")
 public class Comment {
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "content")
     private String content;
-    private int post_id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
 
     public Comment(){};
 
-    public Comment(int id, String content, int post_id) {
+    public Comment(int id, String content, Post post) {
         this.id = id;
         this.content = content;
-        this.post_id = post_id;
+        this.post = post;
     }
 
     public int getId() {
@@ -29,20 +42,20 @@ public class Comment {
         this.content = content;
     }
 
-    public int getPost_id() {
-        return post_id;
+    public Post getPost() {
+        return post;
     }
 
-    public void setPost_id(int post_id) {
-        this.post_id = post_id;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     @Override
     public String toString() {
-        return "comment{" +
+        return "Comment{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
-                ", post_id=" + post_id +
+                ", post=" + post.hashCode() +
                 '}';
     }
 }
