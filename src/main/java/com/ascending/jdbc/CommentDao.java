@@ -75,12 +75,4 @@ public class CommentDao {
         return 1;
     }
 
-
-
-    public static void main(String[] args) {
-        CommentDao cd=new CommentDao();
-        System.out.println(cd.getComment());
-    }
-
-
 }

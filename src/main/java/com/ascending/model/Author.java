@@ -1,5 +1,7 @@
 package com.ascending.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -24,6 +26,7 @@ public class Author {
     @Column(name="register_date")
     private LocalDateTime register_date;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Post> posts;
 

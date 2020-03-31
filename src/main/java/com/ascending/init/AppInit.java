@@ -9,3 +9,4 @@ public class AppInit {
         SpringApplication.run(AppInit.class,args);
     }
 }
+

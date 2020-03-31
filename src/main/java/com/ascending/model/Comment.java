@@ -55,7 +55,6 @@ public class Comment {
         return "Comment{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
-                ", post=" + post.hashCode() +
                 '}';
     }
 }

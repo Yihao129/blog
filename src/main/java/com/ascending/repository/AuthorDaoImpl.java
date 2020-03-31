@@ -152,5 +152,21 @@ public class AuthorDaoImpl implements AuthorDao {
             session.close();
             return null;
         }
-    };
+    }
+
+    @Override
+    public List<Author> getByEager(){
+        String hql = "from Author as A left join fetch A.posts";
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try{
+            Query query = session.createQuery(hql);
+            List<Author> r = query.list();
+            session.close();
+            return r;
+        }catch (Exception e){
+            session.close();
+            logger.error("Fail to get by eager\n",e);
+            return null;
+        }
+    }
 }

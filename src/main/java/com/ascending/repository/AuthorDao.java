@@ -12,7 +12,7 @@ public interface AuthorDao {
     int deleteByName(String name);
     int updateByName(String name, Author author);
     Author getAuthorByNameEager(String name);
-
+    List<Author> getByEager();
 
 
 }

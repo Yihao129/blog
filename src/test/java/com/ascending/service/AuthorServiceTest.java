@@ -6,6 +6,7 @@ import com.ascending.model.Post;
 import com.ascending.repository.AuthorDao;
 import com.ascending.repository.PostDao;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = AppInit.class)
@@ -51,7 +53,49 @@ public class AuthorServiceTest {
     public void saveTest(){
         Author a1 = new Author(02, "Timor", "11@gmail.com", LocalDateTime.now(),null);
         Author r = as.save(a1);
-
+        Assert.assertEquals(r.getName(),"Timor");
     };
 
+    @Test
+    public void getAuthorTest(){
+        List<Author> r = as.getAuthor();
+        Assert.assertEquals(r.size(),1);
+    }
+
+    @Test
+    public void getAuthorByNameTest(){
+        Author r = as.getAuthorByName("Tom");
+        Assert.assertEquals(r.getName(),"Tom");
+    }
+
+    @Test
+    public void deleteAllTest(){
+        int r = as.deleteAll();
+        Assert.assertEquals(r,1);
+    }
+
+    @Test
+    public void getByEagerTest(){
+        List<Author> r = as.getByEager();
+        Assert.assertEquals(r.get(0).getName(),"Tom");
+        Assert.assertEquals(r.get(0).getPosts().size(),2);
+    }
+
+    @Test
+    public void deleteByNameTest(){
+        int r = as.deleteByName("Tom");
+        Assert.assertEquals(r,1);
+    }
+
+    @Test
+    public void updateByNametTest(){
+        int r = as.updateByName("Tom",new Author(01,"Nora","11@gmail.com",LocalDateTime.now(),null));
+        Assert.assertEquals(r,1);
+    }
+
+    @Test
+    public void getAuthorByNameEagerTest(){
+        Author r = as.getAuthorByNameEager("Tom");
+        Assert.assertEquals(r.getPosts().size(),2);
+    }
 }
