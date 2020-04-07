@@ -81,4 +81,17 @@ public class CommentDaoTest {
         Assert.assertEquals(r,1);
     }
 
+    @Test
+    public void getByIdTest(){
+        int id = cd.getFirstRecord().getId();
+        Comment comment = cd.getById(id);
+        Assert.assertNotNull(comment);
+    }
+
+    @Test
+    public void getByIdEagerTest(){
+        int id = cd.getFirstRecord().getId();
+        Comment comment = cd.getByIdEager(id);
+        Assert.assertNotNull(comment);
+    }
 }

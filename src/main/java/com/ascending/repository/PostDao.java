@@ -2,7 +2,10 @@ package com.ascending.repository;
 
 import com.ascending.model.Post;
 
+import java.util.List;
+
 public interface PostDao {
+    public List<Post> get();
     public int deleteAll();
     public Post save(Post post);
     public Post getFirstRecord();

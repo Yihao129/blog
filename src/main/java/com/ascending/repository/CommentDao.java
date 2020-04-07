@@ -11,4 +11,6 @@ public interface CommentDao {
     public int deleteById(int id);
     public List<Comment> get();
     public int updateById(int id, Comment comment);
+    public Comment getById(int id);
+    public Comment getByIdEager(int id);
 }

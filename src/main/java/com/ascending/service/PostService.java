@@ -5,11 +5,17 @@ import com.ascending.repository.PostDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PostService {
 
     @Autowired
     private PostDao pd;
+
+    public List<Post> get(){
+        return pd.get();
+    };
 
     public int deleteAll(){
         return pd.deleteAll();

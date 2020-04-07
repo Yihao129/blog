@@ -14,5 +14,4 @@ public interface AuthorDao {
     Author getAuthorByNameEager(String name);
     List<Author> getByEager();
 
-
 }

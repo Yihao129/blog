@@ -50,6 +50,11 @@ public class PostDaoTest {
     }
 
     @Test
+    public void getTest(){
+        Assert.assertEquals(pd.get().size(),1);
+    }
+
+    @Test
     public void deleteAllTest(){
         int r = pd.deleteAll();
         Assert.assertEquals(r,1);

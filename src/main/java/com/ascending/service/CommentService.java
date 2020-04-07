@@ -36,5 +36,12 @@ public class CommentService {
         return cd.updateById(id,comment);
     };
 
+    public Comment getById(int id){
+        return cd.getById(id);
+    };
+
+    public Comment getByIdEager(int id){
+        return cd.getByIdEager(id);
+    };
 
 }

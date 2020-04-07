@@ -1,6 +1,9 @@
 package com.ascending.model;
 
+import com.ascending.model.view.ModelView;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -15,19 +18,24 @@ public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
+    @JsonView({ModelView.AuthorEager.class,ModelView.AuthorLazy.class,ModelView.PostEager.class})
     private int id;
 
     @Column(name="name")
+    @JsonView({ModelView.AuthorEager.class,ModelView.AuthorLazy.class,ModelView.PostEager.class})
     private String name;
 
     @Column(name="email")
+    @JsonView({ModelView.AuthorEager.class,ModelView.AuthorLazy.class,ModelView.PostEager.class})
     private String email;
 
     @Column(name="register_date")
+    @JsonView({ModelView.AuthorEager.class,ModelView.AuthorLazy.class,ModelView.PostEager.class})
     private LocalDateTime register_date;
 
-    @JsonIgnore
+    @JsonView({ModelView.AuthorEager.class})
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties({"writer"})
     private List<Post> posts;
 
     public Author(){};
@@ -86,8 +94,7 @@ public class Author {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", register_date=" + register_date +
-                ", posts=" + posts.hashCode() +
+                ", register_date=" + register_date+
                 '}';
     }
 }

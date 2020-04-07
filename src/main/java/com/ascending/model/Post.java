@@ -1,5 +1,10 @@
 package com.ascending.model;
 
+import com.ascending.model.view.ModelView;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -12,22 +17,28 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
+    @JsonView({ModelView.AuthorEager.class,ModelView.PostEager.class,ModelView.PostLazy.class,ModelView.CommentEager.class})
     private int id;
 
     @Column(name="author")
+    @JsonView({ModelView.AuthorEager.class,ModelView.PostEager.class,ModelView.PostLazy.class,ModelView.CommentEager.class})
     private String author;
 
     @Column(name="content")
+    @JsonView({ModelView.AuthorEager.class,ModelView.PostEager.class,ModelView.PostLazy.class,ModelView.CommentEager.class})
     private String content;
 
     @Column(name="date")
+    @JsonView({ModelView.AuthorEager.class, ModelView.PostEager.class,ModelView.PostLazy.class,ModelView.CommentEager.class})
     private LocalDateTime date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
+    @JsonView({ModelView.PostEager.class})
     private Author writer;
 
     @OneToMany(mappedBy = "post",cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @JsonView({ModelView.PostEager.class})
     private List<Comment> comments;
 
     public Post(){};

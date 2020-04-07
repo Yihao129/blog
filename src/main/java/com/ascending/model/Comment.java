@@ -1,5 +1,8 @@
 package com.ascending.model;
 
+import com.ascending.model.view.ModelView;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,13 +12,16 @@ public class Comment {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView({ModelView.CommentLazy.class,ModelView.CommentEager.class,ModelView.PostEager.class})
     private int id;
 
     @Column(name = "content")
+    @JsonView({ModelView.CommentLazy.class,ModelView.CommentEager.class,ModelView.PostEager.class})
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
+    @JsonView({ModelView.CommentEager.class})
     private Post post;
 
     public Comment(){};

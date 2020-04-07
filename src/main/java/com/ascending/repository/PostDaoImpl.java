@@ -2,18 +2,25 @@ package com.ascending.repository;
 
 import com.ascending.model.Post;
 import com.ascending.util.HibernateUtil;
-import com.sun.org.apache.xml.internal.resolver.readers.ExtendedXMLCatalogReader;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import sun.security.ssl.HandshakeInStream;
+
+import java.util.List;
 
 @Repository
 public class PostDaoImpl implements PostDao{
     Logger logger = LoggerFactory.getLogger(this.getClass());
+
+
+    @Override
+    public List<Post> get(){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        return session.createQuery("from Post").list();
+    }
 
     @Override
     public int deleteAll() {
@@ -122,7 +129,7 @@ public class PostDaoImpl implements PostDao{
 
     @Override
     public Post getByIdEager(int id){
-        String hql = "from Post as P left join fetch P.comments where P.id=:id";
+        String hql = "from Post as P left join fetch P.comments left join fetch P.writer where P.id=:id";
         Session session = HibernateUtil.getSessionFactory().openSession();
         try{
             Query query = session.createQuery(hql);

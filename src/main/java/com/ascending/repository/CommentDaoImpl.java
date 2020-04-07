@@ -2,7 +2,6 @@ package com.ascending.repository;
 
 import com.ascending.model.Comment;
 import com.ascending.util.HibernateUtil;
-import com.sun.org.apache.xalan.internal.xsltc.trax.TrAXFilter;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -10,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.nio.channels.SelectableChannel;
 import java.util.List;
 
 @Repository
@@ -114,6 +112,26 @@ public class CommentDaoImpl implements CommentDao {
             session.close();
             return -1;
         }
+    }
+
+    @Override
+    public Comment getById(int id) {
+        String hql = "from Comment where id=:id";
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Query query = session.createQuery(hql);
+        query.setParameter("id",id);
+        Comment comment = (Comment)query.getSingleResult();
+        return comment;
+    }
+
+    @Override
+    public Comment getByIdEager(int id) {
+        String hql = "from Comment as C left join fetch C.post where C.id=:id";
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Query query = session.createQuery(hql);
+        query.setParameter("id",id);
+        Comment comment = (Comment)query.getSingleResult();
+        return comment;
     }
 
 
