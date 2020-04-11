@@ -77,7 +77,8 @@ public class UserDaoImpl implements UserDao{
     @Override
     public List<User> get(){
         Session session = HibernateUtil.getSessionFactory().openSession();
-        return session.createQuery("from User").list();
+        List<User> r = session.createQuery("from User").list();
+        return r;
     }
 
     @Override
@@ -117,6 +118,47 @@ public class UserDaoImpl implements UserDao{
             logger.error("Fail to update\n",e);
             return -1;
         }
+    }
+
+    @Override
+    public User getUserByCredential(String emailOrName) {
+        String hql = "from User as U left join fetch U.roles where U.name=:name or email=:email";
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try{
+            transaction = session.beginTransaction();
+            Query query = session.createQuery(hql);
+            query.setParameter("name",emailOrName);
+            query.setParameter("email",emailOrName);
+            User r = (User) query.getSingleResult();
+            session.close();
+            return r;
+        }catch (Exception e){
+            session.close();
+            logger.error("Fail to get credential by id\n",e);
+            return null;
+        }
+    }
+
+    @Override
+    public User getUserByIdEager(long id){
+        String hql = "from User as U left join fetch U.roles where U.id=:id";
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try{
+            transaction = session.beginTransaction();
+            Query query = session.createQuery(hql);
+            query.setParameter("id",id);
+            User r = (User) query.getSingleResult();
+            session.close();
+            return r;
+        }catch (Exception e){
+            session.close();
+            logger.error("Fail to get eager by id\n",e);
+            return null;
+        }
+
+
     }
 
 

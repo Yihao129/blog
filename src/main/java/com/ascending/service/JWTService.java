@@ -1,5 +1,6 @@
 package com.ascending.service;
 
+import com.ascending.model.Role;
 import com.ascending.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
@@ -13,6 +14,8 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class JWTService {
@@ -32,14 +35,37 @@ public class JWTService {
         claims.setIssuedAt(new Date(System.currentTimeMillis()));
         claims.setIssuer(ISSUER);
         claims.setExpiration(new Date(System.currentTimeMillis()+EXPIRATION));
+
+        List<Role> roles = user.getRoles();
+        String allowedReadResources = "";
+        String allowedCreateResources = "";
+        String allowedUpdateResources = "";
+        String allowedDeleteResources = "";
+        String allowedResource = roles.stream().map(role -> role.getAllowedResource()).collect(Collectors.joining(","));
+        claims.put("allowedResource", allowedResource);
+        for (Role role : roles) {
+            if (role.isAllowedRead()) allowedReadResources = String.join(role.getAllowedResource(), allowedReadResources, ",");
+            if (role.isAllowedCreate()) allowedCreateResources = String.join(role.getAllowedResource(), allowedCreateResources, ",");
+            if (role.isAllowedUpdate()) allowedUpdateResources = String.join(role.getAllowedResource(), allowedUpdateResources, ",");
+            if (role.isAllowedDelete()) allowedDeleteResources = String.join(role.getAllowedResource(), allowedDeleteResources, ",");
+        }
+        claims.put("allowedReadResources", allowedReadResources.replaceAll(".$", ""));
+        claims.put("allowedCreateResources", allowedCreateResources.replaceAll(".$", ""));
+        claims.put("allowedUpdateResources", allowedUpdateResources.replaceAll(".$", ""));
+        claims.put("allowedDeleteResources", allowedDeleteResources.replaceAll(".$", ""));
+
         JwtBuilder builder = Jwts.builder().setClaims(claims).signWith(alg,signingKey);
 
         return builder.compact();
     }
 
-    public User decodeToken(String token){
+    public Claims decodeToken(String token){
+        Claims claims = Jwts.parser()
+                .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
+                .parseClaimsJws(token).getBody();
 
-        return null;
+        return claims;
     }
+
 
 }

@@ -2,6 +2,7 @@ package com.ascending.service;
 
 import com.ascending.init.AppInit;
 import com.ascending.model.User;
+import io.jsonwebtoken.Claims;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,6 +33,15 @@ public class JWTServiceTest {
         Assert.assertNotEquals(token.split(".").length,3);
     }
 
+    @Test
+    public void decodeTokenTest(){
+        User user = new User();
+        user.setName("wang yang");
+        user.setId(01);
+        String token = jwt.generateToken(user);
+        Claims claims = jwt.decodeToken(token);
+        Assert.assertEquals(claims.getSubject(),"wang yang");
+    }
 
 
 }

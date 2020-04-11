@@ -75,4 +75,20 @@ public class UserDaoTest {
         Assert.assertEquals(ud.getById(saved_id).getName(),"new name");
     }
 
+    @Test
+    public void getUserByCredentialTest(){
+        User user1 = ud.getUserByCredential("Wang");
+        User user2 = ud.getUserByCredential("111@gmail.com");
+        Assert.assertEquals(user1.getName(),user2.getName());
+        Assert.assertNotNull(user1.getRoles());
+    }
+
+    @Test
+    public void getByIdEagerTest(){
+        User user1 = ud.getUserByIdEager(saved_id);
+        Assert.assertEquals(user1.getName(),saved_user.getName());
+        Assert.assertNotNull(user1.getRoles());
+
+    }
+
 }

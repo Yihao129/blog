@@ -1,5 +1,7 @@
 package com.ascending.model;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -47,6 +49,13 @@ public class User {
         this.roles = roles;
     }
 
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
     public User(){}
 
     public long getId() {
@@ -70,7 +79,7 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = DigestUtils.md5Hex(password.trim());
     }
 
     public String getSecretKey() {

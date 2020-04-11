@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class RoleDaoService {
+public class RoleService {
 
     @Autowired
     private RoleDao rd;

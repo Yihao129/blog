@@ -37,4 +37,12 @@ public class UserService {
         return ud.updateById(id,user);
     }
 
+    public User getUserByCredential(String emailOrName){
+        return ud.getUserByCredential(emailOrName);
+    };
+
+    public User getUserByIdEager(long id){
+        return ud.getUserByIdEager(id);
+    };
+
 }

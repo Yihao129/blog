@@ -11,4 +11,6 @@ public interface UserDao {
     public List<User> get();
     public User getById(long id);
     public int updateById(long id, User user);
+    public User getUserByCredential(String emailOrName);
+    public User getUserByIdEager(long id);
 }

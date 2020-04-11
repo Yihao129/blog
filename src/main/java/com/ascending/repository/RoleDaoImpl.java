@@ -19,7 +19,9 @@ public class RoleDaoImpl implements RoleDao{
     @Override
     public List<Role> get() {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        return session.createQuery("from Role").list();
+        List<Role> r = session.createQuery("from Role").list();
+        session.close();
+        return r;
     }
 
     @Override
@@ -27,7 +29,9 @@ public class RoleDaoImpl implements RoleDao{
         Session session = HibernateUtil.getSessionFactory().openSession();
         Query query = (Query) session.createQuery("from Role where id=:id");
         query.setParameter("id",id);
-        return (Role) query.getSingleResult();
+        Role r = (Role) query.getSingleResult();
+        session.close();
+        return r;
     }
 
     @Override
