@@ -1,7 +1,7 @@
 insert into role (name, allowed_resource, allowed_read, allowed_create, allowed_update, allowed_delete) values
 ('Admin', '/', TRUE , TRUE, TRUE, TRUE),
 ('Manager', '/authors?(/[a-z0-9]+)?(/eager)?,/comments?(/[a-z0-9]+)?(/eager)?,/posts?(/[a-z0-9]+)?(/eager)?', TRUE, TRUE, TRUE, FALSE),
-('User', '/authors?(/[a-z0-9]+)?(/eager)?,/comments?(/[a-z0-9]+)?(/eager)?,/posts?(/[a-z0-9]+)?(/eager)?', TRUE, FALSE, FALSE, FALSE)
+('User', '/authors?(/[a-z0-9]+)?(/eager)?,/comments?(/[a-z0-9]+)?(/eager)?,/posts?(/[a-z0-9]+)?(/eager)?,/files?(/[a-z0-9]+)?(/eager)?', TRUE, TRUE, FALSE, FALSE)
 ;
 commit;
 insert into users (name, password, first_name, last_name, email) values

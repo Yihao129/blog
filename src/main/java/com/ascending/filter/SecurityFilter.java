@@ -11,6 +11,7 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Array;
 import java.util.Arrays;
@@ -53,6 +54,7 @@ public class SecurityFilter implements Filter {
 
     private int authorize(ServletRequest servletRequest, ServletResponse servletResponse){
         HttpServletRequest req = (HttpServletRequest) servletRequest;
+        HttpSession session = ((HttpServletRequest) servletRequest).getSession();
         String uri = req.getRequestURI();
         if(IGNORED_PATHS.contains(uri)) return HttpServletResponse.SC_ACCEPTED;
 
@@ -65,6 +67,9 @@ public class SecurityFilter implements Filter {
                 claims = jwt.decodeToken(token);
                 User u = userService.getById(Long.valueOf(claims.getId()));
                 if(u==null) return HttpServletResponse.SC_UNAUTHORIZED;
+                else{
+                    session.setAttribute("appUserId",u.getId());
+                }
 
             }catch (Exception e){
                 return HttpServletResponse.SC_UNAUTHORIZED;
