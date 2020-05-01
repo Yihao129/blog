@@ -21,7 +21,7 @@ public class ResourceDaoImpl implements ResourceDao{
     @Override
     public List<Resource> getByUserId(Long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        Query query = (Query) session.createQuery("from Resource where userId=:id");
+        Query query = (Query) session.createQuery("from Resource where user.id=:id");
         query.setParameter("id",id);
         List<Resource> r =  query.list();
         session.close();
@@ -31,7 +31,7 @@ public class ResourceDaoImpl implements ResourceDao{
     @Override
     public Resource getByUserIdAndFileName(Long id, String fileName) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        Query query = (Query) session.createQuery("from Resource where userId=:id and fileName=:fileName");
+        Query query = (Query) session.createQuery("from Resource where user.id=:id and fileName=:fileName");
         query.setParameter("id",id);
         query.setParameter("fileName",fileName);
         Resource r = (Resource) query.getSingleResult();
@@ -58,7 +58,7 @@ public class ResourceDaoImpl implements ResourceDao{
 
     @Override
     public int deleteByUserId(Long id) {
-        String hql = "delete from Resource where user_id=:id";
+        String hql = "delete from Resource where user.id=:id";
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         try{

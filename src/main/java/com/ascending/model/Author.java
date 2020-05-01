@@ -38,6 +38,8 @@ public class Author {
     @JsonIgnoreProperties({"writer"})
     private List<Post> posts;
 
+
+
     public Author(){};
 
     public Author(int id, String name, String email, LocalDateTime register_date, List<Post> posts) {

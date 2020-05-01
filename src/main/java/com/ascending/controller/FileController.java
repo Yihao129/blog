@@ -1,11 +1,9 @@
 package com.ascending.controller;
 
 import com.ascending.model.Resource;
+import com.ascending.model.User;
 import com.ascending.repository.ResourceDao;
-import com.ascending.service.FileService;
-import com.ascending.service.JWTService;
-import com.ascending.service.MessageService;
-import com.ascending.service.ResourceService;
+import com.ascending.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,13 +41,17 @@ public class FileController {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String uploadFile(@RequestParam("file")MultipartFile file, HttpServletRequest req) throws IOException {
         logger.info("in: "+file.getOriginalFilename());
         HttpSession session = req.getSession();
         String key = fileService.fileUpload("yyh-buket1",file);
         Long id = new Long((Long)session.getAttribute("appUserId"));
-        Resource res = new Resource(id,file.getOriginalFilename(),key, LocalDateTime.now());
+        User user = userService.getById(id);
+        Resource res = new Resource(user,file.getOriginalFilename(),key, LocalDateTime.now());
         resourceService.save(res);
         messageService.sendMessage(res.toString(),1);
         return key;

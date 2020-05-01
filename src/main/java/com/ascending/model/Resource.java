@@ -11,8 +11,9 @@ public class Resource {
     @Column(name="id")
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(name = "file_name")
     private String fileName;
@@ -23,8 +24,8 @@ public class Resource {
     @Column(name = "creation_time")
     private LocalDateTime creationTime;
 
-    public Resource(Long userId, String fileName, String s3key, LocalDateTime creationTime) {
-        this.userId = userId;
+    public Resource(User user, String fileName, String s3key, LocalDateTime creationTime) {
+        this.user = user;
         this.fileName = fileName;
         this.s3key = s3key;
         this.creationTime = creationTime;
@@ -40,12 +41,12 @@ public class Resource {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getFileName() {
@@ -76,7 +77,7 @@ public class Resource {
     public String toString() {
         return "Resource{" +
                 "id=" + id +
-                ", userId=" + userId +
+                ", userId=" + user.getId() +
                 ", fileName='" + fileName + '\'' +
                 ", s3key='" + s3key + '\'' +
                 ", creationTime=" + creationTime +

@@ -38,6 +38,9 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name="role_id")})
     List<Role> roles;
 
+    @OneToMany(mappedBy = "user")
+    private List<Resource> resources;
+
     public User(long id, String name, String password, String secretKey, String firstName, String lastName, String email, List<Role> roles) {
         this.id = id;
         this.name = name;
@@ -112,5 +115,16 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }
