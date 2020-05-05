@@ -1,13 +1,13 @@
 package com.ascending.repository;
 
 import com.ascending.model.Resource;
-import com.ascending.model.Role;
-import com.ascending.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,12 +15,13 @@ import java.util.List;
 
 @Repository
 public class ResourceDaoImpl implements ResourceDao{
-
+    @Autowired
+    private SessionFactory sessionFactory;
     Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
     @Override
     public List<Resource> getByUserId(Long id) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Query query = (Query) session.createQuery("from Resource where user.id=:id");
         query.setParameter("id",id);
         List<Resource> r =  query.list();
@@ -30,7 +31,7 @@ public class ResourceDaoImpl implements ResourceDao{
 
     @Override
     public Resource getByUserIdAndFileName(Long id, String fileName) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Query query = (Query) session.createQuery("from Resource where user.id=:id and fileName=:fileName");
         query.setParameter("id",id);
         query.setParameter("fileName",fileName);
@@ -41,7 +42,7 @@ public class ResourceDaoImpl implements ResourceDao{
 
     @Override
     public Resource save(Resource res) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try{
             transaction=session.beginTransaction();
@@ -59,7 +60,7 @@ public class ResourceDaoImpl implements ResourceDao{
     @Override
     public int deleteByUserId(Long id) {
         String hql = "delete from Resource where user.id=:id";
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();

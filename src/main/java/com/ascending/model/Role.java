@@ -102,4 +102,18 @@ public class Role {
     public void setAllowedDelete(boolean allowedDelete) {
         this.allowedDelete = allowedDelete;
     }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", allowedResource='" + allowedResource + '\'' +
+                ", allowedRead=" + allowedRead +
+                ", allowedCreate=" + allowedCreate +
+                ", allowedUpdate=" + allowedUpdate +
+                ", allowedDelete=" + allowedDelete +
+                ", users=" + users +
+                '}';
+    }
 }

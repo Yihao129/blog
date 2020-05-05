@@ -49,8 +49,12 @@ public class AuthController {
             roles.add(userRole);
             user.setRoles(roles);
             User r = userService.save(user);
+            Map rmap = new HashMap();
+            rmap.put("name",r.getName());
+            rmap.put("email",r.getEmail());
+            rmap.put("status","success");
             if(r==null) return ResponseEntity.ok().body("Fail to registered.");
-            else return ResponseEntity.ok().body(r);
+            else return ResponseEntity.ok().body(rmap);
 
         }catch (Exception e){
             e.printStackTrace();

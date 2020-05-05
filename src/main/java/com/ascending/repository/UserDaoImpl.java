@@ -1,26 +1,27 @@
 package com.ascending.repository;
 
 import com.ascending.model.User;
-import com.ascending.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 
 @Repository
 public class UserDaoImpl implements UserDao{
-
+    @Autowired
+    private SessionFactory sessionFactory;
     Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
     @Override
     public User save(User user) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try{
             transaction=session.beginTransaction();
@@ -38,7 +39,7 @@ public class UserDaoImpl implements UserDao{
     @Override
     public int deleteById(long id){
         String hql = "delete from User where id=:id";
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
@@ -58,7 +59,7 @@ public class UserDaoImpl implements UserDao{
     @Override
     public int deleteAll(){
         String hql = "delete from User";
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
@@ -76,7 +77,7 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public List<User> get(){
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         List<User> r = session.createQuery("from User").list();
         return r;
     }
@@ -84,7 +85,7 @@ public class UserDaoImpl implements UserDao{
     @Override
     public User getById(long id){
         String hql = "from User where id=:id";
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
@@ -105,7 +106,7 @@ public class UserDaoImpl implements UserDao{
         String hql = "update User set name=:name, " +
                 "password=:password, secretKey = :secretKey, firstName = :firstName," +
                 "lastName = :lastName, email = :email";
-        Session session =HibernateUtil.getSessionFactory().openSession();
+        Session session =sessionFactory.openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
@@ -123,16 +124,16 @@ public class UserDaoImpl implements UserDao{
     @Override
     public User getUserByCredential(String emailOrName) {
         String hql = "from User as U left join fetch U.roles where U.name=:name or email=:email";
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
             Query query = session.createQuery(hql);
             query.setParameter("name",emailOrName);
             query.setParameter("email",emailOrName);
-            User r = (User) query.getSingleResult();
+            List<User> r = query.list();
             session.close();
-            return r;
+            return r.size()==0?null:r.get(0);
         }catch (Exception e){
             session.close();
             logger.error("Fail to get credential by id\n",e);
@@ -143,7 +144,7 @@ public class UserDaoImpl implements UserDao{
     @Override
     public User getUserByIdEager(long id){
         String hql = "from User as U left join fetch U.roles where U.id=:id";
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();

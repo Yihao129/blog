@@ -1,27 +1,25 @@
-package com.ascending.util;
+package com.ascending.init;
 
 import com.github.fluent.hibernate.cfg.scanner.EntityScanner;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.Properties;
 
-public class HibernateUtil {
-    private static SessionFactory sessionFactory;
-    private static Logger logger = LoggerFactory.getLogger(HibernateUtil.class);
-    /* Define JVM options
-    -Ddatabase.driver=org.postgresql.Driver
-    -Ddatabase.dialect=org.hibernate.dialect.PostgreSQL9Dialect
-    -Ddatabase.url=jdbc:postgresql://localhost:5432/train
-    -Ddatabase.user=admin
-    -Ddatabase.password=Training123!
-    */
-    public static SessionFactory getSessionFactory() {
+@Configuration
+public class DatabaseConfig {
+
+    private SessionFactory sessionFactory;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Bean
+    public SessionFactory getSessionFactory() {
         //first time invoke
         if (sessionFactory == null) {
             //construct session factory
@@ -32,7 +30,7 @@ public class HibernateUtil {
                 String dbUrl = System.getProperty("database.url");
                 String dbUser = System.getProperty("database.user");
                 String dbPassword = System.getProperty("database.password");
-                Configuration configuration = new Configuration();
+                org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
                 Properties settings = new Properties();
                 settings.put(Environment.DRIVER, dbDriver);
                 settings.put(Environment.DIALECT, dbDialect);
@@ -56,9 +54,4 @@ public class HibernateUtil {
         return sessionFactory;
     }
 
-    public static void main(String[] args) {
-        SessionFactory sf=HibernateUtil.getSessionFactory();
-        logger.info(String.valueOf(sf.hashCode()));
-
-    }
 }

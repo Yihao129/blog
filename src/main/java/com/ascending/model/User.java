@@ -1,5 +1,6 @@
 package com.ascending.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.persistence.*;
@@ -36,7 +37,8 @@ public class User {
     @JoinTable(name = "users_roles",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name="role_id")})
-    List<Role> roles;
+    @JsonIgnore
+    private List<Role> roles;
 
     @OneToMany(mappedBy = "user")
     private List<Resource> resources;

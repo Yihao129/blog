@@ -1,5 +1,6 @@
 package com.ascending.controller;
 
+import com.ascending.model.ProjectAttribute;
 import com.ascending.model.Resource;
 import com.ascending.model.User;
 import com.ascending.repository.ResourceDao;
@@ -7,6 +8,7 @@ import com.ascending.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,8 +50,8 @@ public class FileController {
     public String uploadFile(@RequestParam("file")MultipartFile file, HttpServletRequest req) throws IOException {
         logger.info("in: "+file.getOriginalFilename());
         HttpSession session = req.getSession();
-        String key = fileService.fileUpload("yyh-buket1",file);
-        Long id = new Long((Long)session.getAttribute("appUserId"));
+        String key = fileService.fileUpload(file);
+        Long id = (Long)session.getAttribute(ProjectAttribute.SESSION_USER_ID);
         User user = userService.getById(id);
         Resource res = new Resource(user,file.getOriginalFilename(),key, LocalDateTime.now());
         resourceService.save(res);

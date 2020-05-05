@@ -1,11 +1,11 @@
 package com.ascending.filter;
 
+import com.ascending.model.ProjectAttribute;
 import com.ascending.model.User;
 import com.ascending.service.JWTService;
 import com.ascending.service.UserService;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import sun.security.util.ArrayUtil;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -32,7 +32,6 @@ public class SecurityFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
     }
 
     @Override
@@ -68,7 +67,7 @@ public class SecurityFilter implements Filter {
                 User u = userService.getById(Long.valueOf(claims.getId()));
                 if(u==null) return HttpServletResponse.SC_UNAUTHORIZED;
                 else{
-                    session.setAttribute("appUserId",u.getId());
+                    session.setAttribute(ProjectAttribute.SESSION_USER_ID,u.getId());
                 }
 
             }catch (Exception e){

@@ -1,24 +1,26 @@
 package com.ascending.repository;
 
 import com.ascending.model.Role;
-import com.ascending.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public class RoleDaoImpl implements RoleDao{
-
+    @Autowired
+    private SessionFactory sessionFactory;
     Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
     @Override
     public List<Role> get() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         List<Role> r = session.createQuery("from Role").list();
         session.close();
         return r;
@@ -26,7 +28,7 @@ public class RoleDaoImpl implements RoleDao{
 
     @Override
     public Role getById(long id) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Query query = (Query) session.createQuery("from Role where id=:id");
         query.setParameter("id",id);
         Role r = (Role) query.getSingleResult();
@@ -36,7 +38,7 @@ public class RoleDaoImpl implements RoleDao{
 
     @Override
     public Role save(Role role) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try{
             transaction=session.beginTransaction();
@@ -54,7 +56,7 @@ public class RoleDaoImpl implements RoleDao{
     @Override
     public int deleteById(long id) {
         String hql = "delete from Role where id=:id";
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
@@ -73,7 +75,7 @@ public class RoleDaoImpl implements RoleDao{
 
     @Override
     public int update(Role role) {
-        Session session =HibernateUtil.getSessionFactory().openSession();
+        Session session =sessionFactory.openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();

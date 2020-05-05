@@ -1,12 +1,13 @@
 package com.ascending.repository;
 
 import com.ascending.model.Author;
-import com.ascending.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import sun.security.ssl.HandshakeInStream;
 
@@ -16,12 +17,14 @@ import java.util.List;
 @Repository
 public class AuthorDaoImpl implements AuthorDao {
 
+    @Autowired
+    private SessionFactory sessionFactory;
     private Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
     @Override
     public Author save(Author author) {
         Transaction trans=null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         try{
             trans = session.beginTransaction();
             session.save(author);
@@ -40,7 +43,7 @@ public class AuthorDaoImpl implements AuthorDao {
     public List<Author> getAuthor() {
         List<Author> authors = new ArrayList<Author>();
         String sql="FROM Author";
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         try{
             Query<Author> query = session.createQuery(sql);
             authors = query.list();
@@ -57,7 +60,7 @@ public class AuthorDaoImpl implements AuthorDao {
     @Override
     public int deleteAll() {
         String hql="delete from Author";
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
@@ -77,7 +80,7 @@ public class AuthorDaoImpl implements AuthorDao {
     @Override
     public Author getAuthorByName(String name) {
         String hql = "from Author as A where A.name=:name";
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction;
         Author author = null;
         try{
@@ -96,7 +99,7 @@ public class AuthorDaoImpl implements AuthorDao {
     @Override
     public int deleteByName(String name) {
         String hql = "delete from Author where name=:name";
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
@@ -116,7 +119,7 @@ public class AuthorDaoImpl implements AuthorDao {
     @Override
     public int updateByName(String name, Author author) {
         String hql = "update Author set name=:name, email=:email, register_date=:register_date where name=:anchor_name";
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
@@ -140,7 +143,7 @@ public class AuthorDaoImpl implements AuthorDao {
     @Override
     public Author getAuthorByNameEager(String name){
         String hql = "from Author as A left join fetch A.posts where A.name=:name";
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         try{
             Query query = session.createQuery(hql);
             query.setParameter("name",name);
@@ -157,7 +160,7 @@ public class AuthorDaoImpl implements AuthorDao {
     @Override
     public List<Author> getByEager(){
         String hql = "from Author as A left join fetch A.posts";
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         try{
             Query query = session.createQuery(hql);
             List<Author> r = query.list();

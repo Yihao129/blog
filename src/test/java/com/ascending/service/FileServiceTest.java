@@ -29,23 +29,23 @@ public class FileServiceTest {
     private AmazonS3 amazonS3;
 
     @Test
-    public void fileUploadTest1(){
+    public void fileUploadStringTest(){
         fileService.fileUpload("1.txt","abc");
         verify(amazonS3,times(1)).putObject(anyString(),anyString(),anyString());
     }
 
     @Test
-    public void fileUploadTest2(){
+    public void fileUploadFileTest(){
         File f = mock(File.class);
         fileService.fileUpload(f);
         verify(amazonS3,times(1)).putObject(anyString(),any(),any(File.class));
     }
 
     @Test
-    public void fileUploadTest3() throws IOException {
+    public void fileUploadMultipartFileTest() throws IOException {
         MultipartFile f = mock(MultipartFile.class);
         when(f.getInputStream()).thenReturn(mock(InputStream.class));
-        fileService.fileUpload("abc",f);
+        fileService.fileUpload(f);
         verify(amazonS3,times(1)).putObject(anyString(),anyString(),any(InputStream.class),any());
     }
 
