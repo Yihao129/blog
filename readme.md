@@ -3,7 +3,7 @@
 It is a Maven Project based on Spring Boot framework.
 Functionalities:
 1. Stateless authentication 
-2. Authirization for apis
+2. Authorization for apis
 3. CRUD operations on blog content and comments
 4. Upload files to AWS S3
 5. Send email notifications with email consumer micro service
