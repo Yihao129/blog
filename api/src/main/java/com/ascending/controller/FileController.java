@@ -4,7 +4,6 @@ import com.ascending.model.ProjectAttribute;
 import com.ascending.model.Resource;
 import com.ascending.model.User;
 import com.ascending.service.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
