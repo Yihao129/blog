@@ -1,0 +1,4 @@
+project1.iml
+target/
+.idea/
+consumer/src/main/java/com/ascending/config/Property.java
