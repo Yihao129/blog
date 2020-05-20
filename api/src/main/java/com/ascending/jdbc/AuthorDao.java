@@ -120,11 +120,7 @@ public class AuthorDao {
             stmt.executeUpdate(sql);
         }
         catch (Exception e){
-
             return 0;
-        }
-        finally {
-
         }
         return 1;
     }
@@ -142,13 +138,5 @@ public class AuthorDao {
         }
     }
 
-    public static void main(String[] args) throws SQLException {
-//        Author t=new Author(0,"Bob","111@gmail.com", LocalDateTime.now());
-//        AuthorDao ad=new AuthorDao();
-//
-//        int r = ad.getIDByName("Bob");
-//        System.out.println(r);
-
-    }
 
 }

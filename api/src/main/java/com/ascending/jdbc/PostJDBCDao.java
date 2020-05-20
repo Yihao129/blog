@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostJDBCDao {
-    static final String DBURL = "jdbc:postgresql://localhost:5431/train";
-    static final String USER = "admin";
-    static final String PASS = "password";
+    static final String DBURL = System.getProperty("database.url");
+    static final String USER = System.getProperty("database.user");
+    static final String PASS = System.getProperty("database.password");
     Logger logger= LoggerFactory.getLogger(this.getClass());
     Connection conn = null;
     Statement stmt = null;
