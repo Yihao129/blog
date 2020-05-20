@@ -38,7 +38,7 @@ public class AuthorDao {
                 t.setId(rs.getInt("id"));
                 t.setName(rs.getString("name"));
                 t.setEmail(rs.getString("email"));
-                t.setRegister_date((LocalDateTime) rs.getObject("register_date"));
+                t.setRegister_date(((Timestamp)rs.getObject("register_date")).toLocalDateTime());
                 authors.add(t);
             }
         }
@@ -77,7 +77,7 @@ public class AuthorDao {
 
     public int updateAuthorByName(String name, Author author){
 
-        String sql=String.format("update author set name='%s',email='%s',register_date='%s' where name=%s",
+        String sql=String.format("update author set name='%s',email='%s',register_date='%s' where name='%s'",
                 author.getName(),
                 author.getEmail(),
                 author.getRegister_date().toString(),
@@ -90,9 +90,6 @@ public class AuthorDao {
         }
         catch (Exception e){
             return 0;
-        }
-        finally {
-
         }
         return 1;
     }

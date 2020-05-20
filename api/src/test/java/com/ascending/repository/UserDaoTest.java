@@ -55,7 +55,7 @@ public class UserDaoTest {
 
     @Test
     public void deleteAllTest(){
-        Assert.assertEquals(ud.deleteAll(),1);
+        Assert.assertEquals(ud.deleteAll(),3);
     }
 
     @Test

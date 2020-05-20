@@ -65,7 +65,7 @@ public class CommentDao {
     }
 
     public int insert(Comment comment){
-        String sql=String.format("insert into comment(content,post_id) values('%s',%d)",comment.getContent(),1);
+        String sql=String.format("insert into comment(content,post_id) values('%s',%d)",comment.getContent(),comment.getPost().getId());
         try{
             stmt.executeUpdate(sql);
         }catch (Exception e){

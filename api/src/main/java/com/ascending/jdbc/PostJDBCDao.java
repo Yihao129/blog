@@ -38,7 +38,7 @@ public class PostJDBCDao {
         List<Post> posts = new ArrayList<Post>();
         try {
             String sql;
-            sql = "SELECT * FROM post";
+            sql = "select * from post";
             rs = stmt.executeQuery(sql);
             //STEP 4: Extract data from result set
             while(rs.next()) {
@@ -46,7 +46,7 @@ public class PostJDBCDao {
                 int id  = rs.getInt("id");
                 String author = rs.getString("author");
                 String content = rs.getString("content");
-                LocalDateTime date = (LocalDateTime) rs.getObject("date");
+                LocalDateTime date = ((Timestamp) rs.getObject("date")).toLocalDateTime();
                 int author_id  = rs.getInt("author_id");
 
                 //Fill the object
@@ -91,7 +91,7 @@ public class PostJDBCDao {
 
         try{
             String sql=String.format("insert into post(author,content,date,author_id) values('%s','%s','%s','%d')",
-                    post.getAuthor(),post.getContent(),post.getDate().toString(),1);
+                    post.getAuthor(),post.getContent(),post.getDate().toString(),post.getWriter().getId());
             logger.debug(sql);
             stmt.executeUpdate(sql);
         }
@@ -108,7 +108,7 @@ public class PostJDBCDao {
 
         try{
             String sql=String.format("update post set author='%s',content='%s',date='%s',author_id=%d where id=%d",
-                    post.getAuthor(),post.getContent(),post.getDate().toString(),1,id);
+                    post.getAuthor(),post.getContent(),post.getDate().toString(),post.getWriter().getId(),id);
             logger.debug(sql);
             stmt.executeUpdate(sql);
         }
@@ -140,18 +140,6 @@ public class PostJDBCDao {
 
 
 
-    public static void main(String[] args){
-        PostJDBCDao pjd=new PostJDBCDao();
-
-//        AuthorDao ad=new AuthorDao();
-//        Author author=new Author(0,"Bob","111@gmail.com", LocalDateTime.now());
-//
-//
-//        Post post=new Post(0,"Bob","This is the first post.",LocalDateTime.now(),10);
-//        System.out.println(pjd.insertPosts(post));
-
-
-    }
 
 
 }

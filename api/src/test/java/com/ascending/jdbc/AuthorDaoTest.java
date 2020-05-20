@@ -25,6 +25,7 @@ public class AuthorDaoTest {
 
     @After
     public void after(){
+        ad.deleteAllRecord();
         logger.debug("after test");
     }
 
@@ -36,45 +37,45 @@ public class AuthorDaoTest {
 
     @Test
     public void insertAuthorTest(){
-//        ad.deleteAllRecord();
-//        Author t=new Author(0,"Bob","111@gmail.com", LocalDateTime.now());
-//        int r = ad.insertAuthor(t);
-//        logger.debug(String.format("Insert table with return value %d",r));
-//        Assert.assertEquals(r,1);
+        ad.deleteAllRecord();
+        Author t=new Author(0,"Bob","111@gmail.com", LocalDateTime.now(), null);
+        int r = ad.insertAuthor(t);
+        logger.debug(String.format("Insert table with return value %d",r));
+        Assert.assertEquals(r,1);
     }
 
     @Test
     public void updateAuthorByNameTest(){
-//        ad.deleteAllRecord();
-//        Author t=new Author(0,"Bob","111@gmail.com", LocalDateTime.now());
-//        int r = ad.insertAuthor(t);
-//
-//        t=new Author(0,"Tom","111@gmail.com", LocalDateTime.now());
-//        r = ad.updateAuthorByName("Bob",t);
-//        Assert.assertEquals(r,1);
+        ad.deleteAllRecord();
+        Author t=new Author(0,"Bob","111@gmail.com", LocalDateTime.now(),null);
+        int r = ad.insertAuthor(t);
+
+        t=new Author(0,"Tom","111@gmail.com", LocalDateTime.now(),null);
+        r = ad.updateAuthorByName("Bob",t);
+        Assert.assertEquals(r,1);
     }
 
     @Test
     public void deleteByNameTest(){
-//        ad.deleteAllRecord();
-//        Author t=new Author(0,"Bob","111@gmail.com", LocalDateTime.now());
-//        ad.insertAuthor(t);
-//
-//        int r = ad.deleteByName("Bob");
-//        logger.debug(String.format("Delete table with return value %d",r));
-//        Assert.assertEquals(r,1);
+        ad.deleteAllRecord();
+        Author t=new Author(0,"Bob","111@gmail.com", LocalDateTime.now(),null);
+        ad.insertAuthor(t);
+
+        int r = ad.deleteByName("Bob");
+        logger.debug(String.format("Delete table with return value %d",r));
+        Assert.assertEquals(r,1);
     }
 
     @Test
     public void getIDByNameTest(){
-//        AuthorDao ad=new AuthorDao();
-//        Author t=new Author(0,"Bob","111@gmail.com", LocalDateTime.now());
-//
-//        ad.deleteAllRecord();
-//        ad.insertAuthor(t);
-//
-//        int r = ad.getIDByName("Bob");
-//        Assert.assertTrue(r!=-1);
+        AuthorDao ad=new AuthorDao();
+        Author t=new Author(0,"Bob","111@gmail.com", LocalDateTime.now(), null);
+
+        ad.deleteAllRecord();
+        ad.insertAuthor(t);
+
+        int r = ad.getIDByName("Bob");
+        Assert.assertTrue(r!=-1);
     }
 
 
