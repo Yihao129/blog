@@ -1,5 +1,9 @@
 project1.iml
 target/
 .idea/
+<<<<<<< HEAD
 consumer/src/main/java/com/ascending/config/Property.java
 api/container/*.war
+=======
+consumer/src/main/java/com/ascending/config/Property.java
+>>>>>>> 6f954ad839ac3f0411f921ae54f2c4507797b465
